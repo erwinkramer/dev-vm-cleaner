@@ -28,7 +28,7 @@ $ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
 
 ## Speedrun
 
-Run the follow to one-shot cleanup without using the skill, assuming the distro names are `Ubuntu`, `docker-desktop` and `podman-machine-default`:
+Run the following to one-shot cleanup without using the skill, assuming the distro names are `Ubuntu`, `docker-desktop` and `podman-machine-default`:
 
 ```powershell
 ./skills/dev-vm-cleaner/scripts/cleanup-host.ps1 && `
