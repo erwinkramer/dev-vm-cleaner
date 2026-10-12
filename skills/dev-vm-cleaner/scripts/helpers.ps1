@@ -4,6 +4,8 @@
 # management. All scripts dot-source this
 # file first. Dot-source from a script that has already defined $LogPath:
 #     . (Join-Path $PSScriptRoot "helpers.ps1")
+$env:WSL_UTF8 = '1'
+
 function Write-Log {
     param(
         [string]$Message,
@@ -29,8 +31,7 @@ function Get-WslVhdx {
     if ($reg) { Join-Path ($reg.BasePath -replace '^\\+\?\\', '') "ext4.vhdx" }
 }
 
-# Capture stdout and stderr separately. WSL_UTF8 makes WSL diagnostics use
-# the same encoding as Linux tools, including when they share stderr.
+# Capture stdout and stderr separately as UTF-8.
 # String -Encoding values keep this ConstrainedLanguage-compatible.
 function Invoke-NativeCommand {
     param(
@@ -42,11 +43,6 @@ function Invoke-NativeCommand {
     )
     $outFile = Join-Path $env:TEMP "wslcleaner_$PID.out"
     $errFile = Join-Path $env:TEMP "wslcleaner_$PID.err"
-    $isWsl = (Split-Path -Leaf $FilePath) -in @('wsl', 'wsl.exe')
-    $previousWslUtf8 = $env:WSL_UTF8
-    if ($isWsl) {
-        $env:WSL_UTF8 = '1'
-    }
     try {
         # Start-Process redirects the file's raw bytes into stdin: unlike
         # piping a string (which re-encodes and appends a CRLF terminator,
@@ -88,7 +84,6 @@ function Invoke-NativeCommand {
             Output   = ("$output").Trim()
         }
     } finally {
-        if ($isWsl) { $env:WSL_UTF8 = $previousWslUtf8 }
         Remove-Item $outFile, $errFile -ErrorAction SilentlyContinue
     }
 }
