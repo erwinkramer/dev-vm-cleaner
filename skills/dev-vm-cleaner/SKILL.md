@@ -1,10 +1,10 @@
 ---
 name: dev-vm-cleaner
-description: Free disk space in WSL by cleaning, journal-vacuuming, and VHDX-compacting the Podman machine, Docker Desktop, or any other WSL distro. Use when asked to clean up WSL, shrink a WSL disk, reclaim podman/docker/distro space, or run the dev-vm-cleaner cleanup scripts.
+description: Safely reclaim disk space on Windows by cleaning host caches and selected WSL distros, pruning Podman or Docker data, and compacting or capping distro VHDX files. Use when asked to clean WSL, reduce a WSL distro's disk size, reclaim Podman/Docker storage, or run the dev-vm-cleaner scripts; includes verification and optional Kubernetes image-GC follow-up.
 compatibility: Windows with WSL >= 3.0.0 and PowerShell 7.6+ (pwsh), including ConstrainedLanguage mode. No admin required.
 ---
 
-# WSL cleanup
+# Development Environment Cleanup
 
 The scripts in `scripts/` clean configured host-user caches once and each selected WSL distro: package manager cache (apt/dnf/dnf5/yum/apk/pacman/zypper, auto-detected) + forced log rotation + rotated dmesg, journal vacuum, container prune (Podman, Docker Desktop, or reachable in-distro Docker) including Docker BuildKit cache, VHDX compaction, disk size cap, and the `.wslconfig` default disk size for new distros (`defaultVhdSize`).
 
