@@ -25,3 +25,13 @@ If not on a CLM machine, configure `notepad $PROFILE` with:
 ```powershell
 $ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
 ```
+
+## Speedrun
+
+Run the follow to one-shot cleanup without using the skill, assuming the distro names are `Ubuntu` and `podman-machine-default`:
+
+```powershell
+./skills/dev-vm-cleaner/scripts/cleanup-host.ps1 && `
+./skills/dev-vm-cleaner/scripts/cleanup-distro.ps1 -Distro Ubuntu && `
+./skills/dev-vm-cleaner/scripts/cleanup-distro.ps1 -Distro podman-machine-default
+```
