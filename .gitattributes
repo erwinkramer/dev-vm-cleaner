@@ -1,0 +1,6 @@
+# Default pattern for all files
+* text=auto
+
+# Force LF (Linux) line endings for PowerShell scripts and shell scripts
+*.ps1 text eol=lf
+*.sh text eol=lf

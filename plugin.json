@@ -1,0 +1,8 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "dev-vm-cleaner",
+  "version": "1.0.0",
+  "description": "Unattended host cache and WSL distro cleanup for Podman, Docker Desktop, and any named distro: prune resources, vacuum the systemd journal, compact the VHDX, and cap disk allocation. The dev-vm-cleaner skill probes the WSL CLI to pick the right script and parameters.",
+  "license": "MIT",
+  "keywords": ["wsl", "cleanup", "podman", "docker", "powershell", "vhdx"]
+}
