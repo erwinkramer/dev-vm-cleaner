@@ -44,7 +44,7 @@ try {
     # 1. Small cleanups inside WSL (the wsl CLI starts the distro if stopped):
     #    forced log rotation + rotated dmesg files + the detected package
     #    manager's cache.
-    Write-Log "Cleaning package manager cache and rotated dmesg in '$Distro'..."
+    Write-Log "Running pm-clean.sh in '$Distro' (system/developer caches and log rotation)..."
     # Feed the script via stdin (sh -) instead of a path: distros differ in
     # how they mount Windows drives (/mnt/c vs /mnt/host/c vs not at all).
     $cleanup = Invoke-NativeCommand -FilePath 'wsl' -Arguments @(
@@ -53,9 +53,9 @@ try {
     # Best-effort step: log failures but keep going - compaction/resize are
     # the primary goal and are validated separately below.
     if ($cleanup.ExitCode -ne 0) {
-        Write-Log "WARNING: package manager cleanup failed (exit $($cleanup.ExitCode)); continuing" "WARN"
+        Write-Log "WARNING: pm-clean.sh failed in '$Distro' (exit $($cleanup.ExitCode)); continuing" "WARN"
     }
-    Write-Log "Output:`n$($cleanup.Output)"
+    Write-Log "pm-clean.sh output ($Distro):`n$($cleanup.Output)"
 
     # 2. Vacuum the systemd journal while the distro is still up
     #    (never auto-limited on WSL; easily >300 MB over a few boots)

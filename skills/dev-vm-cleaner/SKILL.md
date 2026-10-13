@@ -6,7 +6,7 @@ compatibility: Windows with WSL >= 3.0.0 and PowerShell 7.6+ (pwsh), including C
 
 # Development Environment Cleanup
 
-The scripts in `scripts/` clean configured host-user caches once and each selected WSL distro: package manager cache (apt/dnf/dnf5/yum/apk/pacman/zypper, auto-detected) + forced log rotation + rotated dmesg, journal vacuum, container prune (Podman, Docker Desktop, or reachable in-distro Docker) including Docker BuildKit cache, VHDX compaction, disk size cap, and the `.wslconfig` default disk size for new distros (`defaultVhdSize`).
+The scripts in `scripts/` clean host-user caches once, then selected WSL distros: package manager and developer-tool caches (root and normal users), logs, journals, and unused container data. They compact and cap distro disks and set `defaultVhdSize` for new distros in `.wslconfig`. Later builds may need to download dependencies again.
 
 ## 1. Probe first — never guess
 
