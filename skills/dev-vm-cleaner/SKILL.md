@@ -59,7 +59,7 @@ The script auto-detects Podman, Docker Desktop, and reachable in-distro Docker. 
 
 ## 5. Follow up
 
-- Suggest checking kubernetes setup in the wsl distro's (if any), then suggest enabling [garbage collection for unused container images](https://kubernetes.io/docs/concepts/architecture/garbage-collection/#image-maximum-age-gc) to be configured in your kubernetes GitOps repo. Set the `imageMaximumGCAge` pretty low, like `15m`, so on dev machines it always runs at least a few times on a workday. For k0s, that would be the following `k0s.yaml`:
+- Suggest checking kubernetes setup in the wsl distro's (if any), then suggest enabling [garbage collection for unused container images](https://kubernetes.io/docs/concepts/architecture/garbage-collection/#image-maximum-age-gc) to be configured in your kubernetes GitOps repo. Set the `imageMaximumGCAge` pretty low, like `15m`, so on dev machines it always runs at least a few times on a workday. For `k0s`, that would be the following `k0s.yaml`:
 
 ```yaml
 apiVersion: k0s.k0sproject.io/v1beta1
@@ -75,4 +75,4 @@ spec:
       imageMaximumGCAge: "15m"
 ```
 
-File has to be placed in the right dir, example for k0s: `mkdir -p /etc/k0s && cp k0s.yaml /etc/k0s/k0s.yaml`. Worker-profile changes may need a second (k0s) restart if the kubelet still reports the old value via `/configz`. Suggest to implement this in their GitOps repo, ask where it's checked-out on the dev vm and check if there is already a ClusterConfig configured.
+File has to be placed in the right dir, example for `k0s`: `mkdir -p /etc/k0s && cp k0s.yaml /etc/k0s/k0s.yaml`. Worker-profile changes may need a second (`k0s`) restart if the kubelet still reports the old value via `/configz`. Suggest to implement this in their GitOps repo, ask where it's checked-out on the dev vm and check if there is already a ClusterConfig configured.
