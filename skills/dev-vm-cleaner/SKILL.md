@@ -1,21 +1,23 @@
 ---
 name: dev-vm-cleaner
 description: Safely reclaim disk space on Windows by cleaning host caches and selected WSL distros, pruning Podman or Docker data, and compacting or capping distro VHDX files. Use when asked to clean WSL, reduce a WSL distro's disk size, reclaim Podman/Docker storage, or run the dev-vm-cleaner scripts; includes verification and optional Kubernetes image-GC follow-up.
-compatibility: Windows with WSL >= 3.0.0 and PowerShell 7.6+ (pwsh), including ConstrainedLanguage mode. No admin required.
+compatibility: Windows with PowerShell 7.6+ (pwsh), including ConstrainedLanguage mode. WSL cleanup requires WSL >= 3.0.0; host-only cleanup does not require WSL. No admin required.
 ---
 
 # Development Environment Cleanup
 
-The scripts in `scripts/` clean host-user caches once, then selected WSL distros: package manager and developer-tool caches (root and normal users), logs, journals, and unused container data. They compact and cap distro disks and set `defaultVhdSize` for new distros in `.wslconfig`. Later builds may need to download dependencies again.
+The scripts in `scripts/` clean host-user caches once, then optionally selected WSL distros: package manager and developer-tool caches (root and normal users), logs, journals, and unused container data. For WSL cleanup, they compact and cap distro disks and set `defaultVhdSize` for new distros in `.wslconfig`. Later builds may need to download dependencies again.
 
 ## 1. Probe first — never guess
 
+Check availability with `Get-Command wsl -ErrorAction SilentlyContinue`. If WSL is absent, unavailable, or unused, run only step 2 and verify the host exit code in step 4; skip distro cleanup and follow-up. Otherwise probe:
+
 ```powershell
-wsl --version   # needs >= 3.0.0; if older, warn the user to update WSL
+wsl --version   # needs >= 3.0.0; if older, warn to update and do host-only cleanup
 wsl -l -v       # exact distro names + state
 ```
 
-If the user did not name a distro, list them and ask. If none applies, tell the user there is nothing to clean.
+If the user did not name a distro, list them and ask. If none applies, do host-only cleanup.
 
 ## 2. Clean the host once
 

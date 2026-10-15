@@ -1,8 +1,8 @@
 # Dev VM Cleaner
 
-Agent plugin for unattended host cache and WSL distro cleanup: system package and developer-tool caches, Podman/Docker Desktop resources, systemd journal, VHDX compaction, and a disk size cap. No admin required.
+Agent plugin for unattended host cache and optional WSL distro cleanup: system package and developer-tool caches, Podman/Docker Desktop resources, systemd journal, VHDX compaction, and a disk size cap. No admin required.
 
-Cleanup runs through the `dev-vm-cleaner` skill (`skills/dev-vm-cleaner/SKILL.md`), which probes the WSL CLI to pick the right distro and parameters. The scripts are not meant to be invoked directly.
+Cleanup runs through the `dev-vm-cleaner` skill (`skills/dev-vm-cleaner/SKILL.md`), which probes WSL when available and used; otherwise, it cleans only host caches. The scripts are not meant to be invoked directly.
 
 ## Layout
 
@@ -13,7 +13,7 @@ Cleanup runs through the `dev-vm-cleaner` skill (`skills/dev-vm-cleaner/SKILL.md
 
 ## Requirements
 
-- WSL >= 3.0.0 (`wsl --manage --compact`/`--resize`; checked at start, fails fast)
+- WSL >= 3.0.0 for distro cleanup only (`wsl --manage --compact`/`--resize`); not required for host-only cleanup
 - PowerShell 7.6+ (`pwsh`), also runs under ConstrainedLanguage mode
 
 ## Development
