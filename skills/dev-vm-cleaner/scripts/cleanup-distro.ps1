@@ -38,7 +38,7 @@ try {
 
     # Fail fast before touching anything: compaction/resize need a recent WSL.
     if (-not (Test-WslVersion)) {
-        throw "WSL 3.0.0 or newer required for 'wsl --manage --compact/--resize'. Update WSL and re-run."
+        throw "WSL 3.0.0.0 or newer required for 'wsl --manage --compact/--resize'. Update WSL and re-run."
     }
 
     # 1. Small cleanups inside WSL (the wsl CLI starts the distro if stopped):

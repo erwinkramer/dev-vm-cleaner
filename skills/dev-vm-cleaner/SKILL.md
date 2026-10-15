@@ -1,7 +1,7 @@
 ---
 name: dev-vm-cleaner
 description: Safely reclaim disk space on Windows by cleaning host caches and selected WSL distros, pruning Podman or Docker data, and compacting or capping distro VHDX files. Use when asked to clean WSL, reduce a WSL distro's disk size, reclaim Podman/Docker storage, or run the dev-vm-cleaner scripts; includes verification and optional Kubernetes image-GC follow-up.
-compatibility: Windows with PowerShell 7.6+ (pwsh), including ConstrainedLanguage mode. WSL cleanup requires WSL >= 3.0.0; host-only cleanup does not require WSL. No admin required.
+compatibility: Windows with PowerShell 7.6+ (pwsh), including ConstrainedLanguage mode. WSL cleanup requires WSL >= 3.0.0.0; host-only cleanup does not require WSL. No admin required.
 ---
 
 # Development Environment Cleanup
@@ -13,7 +13,7 @@ The scripts in `scripts/` clean host-user caches once, then optionally selected 
 Check availability with `Get-Command wsl -ErrorAction SilentlyContinue`. If WSL is absent, unavailable, or unused, run only step 2 and verify the host exit code in step 4; skip distro cleanup and follow-up. Otherwise probe:
 
 ```powershell
-wsl --version   # needs >= 3.0.0; if older, warn to update and do host-only cleanup
+wsl --version   # needs >= 3.0.0.0; if older, warn to update and do host-only cleanup
 wsl -l -v       # exact distro names + state
 ```
 

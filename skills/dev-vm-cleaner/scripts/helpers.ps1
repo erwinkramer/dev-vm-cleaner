@@ -96,7 +96,7 @@ function Stop-WslDistro {
 }
 
 # Minimum WSL build supporting `wsl --manage <distro> --compact` / `--resize`.
-# (Verified: 2.7.13 rejects both flags; 3.0.1 accepts them.)
+# (Verified: 2.7.13.0 rejects both flags; 3.0.1.0 accepts them.)
 function Test-WslVersion {
     param([string]$Minimum = '3.0.0.0')
     $wsl = Invoke-NativeCommand -FilePath 'wsl' -Arguments @('--version')

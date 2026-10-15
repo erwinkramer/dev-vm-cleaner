@@ -13,7 +13,7 @@ Cleanup runs through the `dev-vm-cleaner` skill (`skills/dev-vm-cleaner/SKILL.md
 
 ## Requirements
 
-- WSL >= 3.0.0 for distro cleanup only (`wsl --manage --compact`/`--resize`); not required for host-only cleanup
+- WSL >= 3.0.0.0 for distro cleanup only (`wsl --manage --compact`/`--resize`); not required for host-only cleanup
 - PowerShell 7.6+ (`pwsh`), also runs under ConstrainedLanguage mode
 
 ## Development
