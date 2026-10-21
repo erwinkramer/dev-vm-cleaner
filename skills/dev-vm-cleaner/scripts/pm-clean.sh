@@ -100,7 +100,7 @@ if [ "$(id -u)" -eq 0 ]; then
             */nologin|*/false|'') continue ;;
         esac
         [ -d "$user_home" ] || continue
-        su - "$cache_user" -s /bin/sh -c "$developer_cleanup" </dev/null || failed=yes
+        (cd "$user_home" && su "$cache_user" -s /bin/sh -c "$developer_cleanup" </dev/null) || failed=yes
     done <<EOF
 $user_entries
 EOF
