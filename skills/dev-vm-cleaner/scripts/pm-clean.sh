@@ -6,27 +6,21 @@
 # Rotated dmesg logs (rare, but large when present)
 rm -f /var/log/dmesg.*.gz /var/log/dmesg.[0-9]
 
-# Debian, Ubuntu, and Alpine: exclude roots and rebuild the system CA bundle.
-if [ -f /etc/ca-certificates.conf ] && command -v update-ca-certificates >/dev/null; then
-    sed -i \
-        -e 's|^mozilla/emSign_ECC_Root_CA_-_G3.crt|!&|' \
-        -e 's|^mozilla/Comodo_AAA_Services_root.crt|!&|' \
-        /etc/ca-certificates.conf && update-ca-certificates
+failed=no
+if command -v apt-get >/dev/null; then
+    if ! { apt-get update && apt-get -y upgrade && apt-get -y autoremove; }; then
+        echo 'WARNING: APT package update failed' >&2
+        failed=yes
+    fi
 fi
 
-# Fedora (including Podman Machine), RHEL, CentOS, Rocky Linux, and AlmaLinux.
-if command -v trust >/dev/null && command -v update-ca-trust >/dev/null; then
-    ca_blocklist_dir=/etc/pki/ca-trust/source/blocklist
-    [ -d "$ca_blocklist_dir" ] || ca_blocklist_dir=/etc/pki/ca-trust/source/blacklist
-    mkdir -p "$ca_blocklist_dir" &&
-        trust extract --overwrite --format=pem-bundle \
-            --filter='pkcs11:object=Comodo%20AAA%20Services%20root;type=cert' \
-            "$ca_blocklist_dir/Comodo_AAA_Services_root.pem" &&
-        trust extract --overwrite --format=pem-bundle \
-            --filter='pkcs11:object=emSign%20ECC%20Root%20CA%20-%20G3;type=cert' \
-            "$ca_blocklist_dir/emSign_ECC_Root_CA_-_G3.pem" &&
-        update-ca-trust
-fi
+for ca_update in update-ca-certificates update-ca-trust; do
+    command -v "$ca_update" >/dev/null || continue
+    if ! "$ca_update"; then
+        echo "WARNING: $ca_update failed" >&2
+        failed=yes
+    fi
+done
 
 # Force log rotation so live logs (syslog, kern.log, ...) shrink before
 # compaction. On WSL the daily logrotate timer may not have fired; -f
@@ -47,7 +41,6 @@ clean_cache() {
     esac
 }
 cleaned=no
-failed=no
 for pm in apt-get dnf5 dnf yum apk pacman zypper; do
     command -v "$pm" >/dev/null || continue
     if clean_cache "$pm"; then
