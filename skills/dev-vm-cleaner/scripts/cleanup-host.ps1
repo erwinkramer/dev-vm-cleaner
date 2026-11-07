@@ -45,7 +45,7 @@ try {
             $cleanup = Invoke-NativeCommand -FilePath $command -Arguments $cleaner.Arguments
             if ($cleanup.Output) { Write-Log "$($cleaner.Name) cleanup output:`n$($cleanup.Output)" }
             if ($cleanup.ExitCode -ne 0) {
-                if ($cleaner.IgnoreLocked -and $cleanup.Output -match '(?i)(being used by another process|file is locked|used by another process)') {
+                if ($cleaner.IgnoreLocked -and $cleanup.Output -match '(?i)(being used by another process|file is locked|used by another process|failed to delete|unable to delete one or more files)') {
                     Write-Log "WARNING: $($cleaner.Name) cache contains locked files; continuing" "WARN"
                 } elseif ($cleaner.Corepack -and $cleanup.Output -match '(?i)(pnpm-native\.exe.*UNKNOWN|network access is disabled by the environment|blocked by group policy)') {
                     Write-Log "WARNING: pnpm could not run without Corepack's blocked native binary; skipped without downloading" "WARN"
