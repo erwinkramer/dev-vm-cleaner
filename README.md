@@ -33,6 +33,6 @@ Run the following to one-shot cleanup without using the skill, assuming the dist
 ```powershell
 ./skills/dev-vm-cleaner/scripts/cleanup-host.ps1 && `
 ./skills/dev-vm-cleaner/scripts/cleanup-distro.ps1 -Distro Ubuntu && `
-./skills/dev-vm-cleaner/scripts/cleanup-distro.ps1 -Distro docker-desktop && `
-./skills/dev-vm-cleaner/scripts/cleanup-distro.ps1 -Distro podman-machine-default
+./skills/dev-vm-cleaner/scripts/cleanup-distro.ps1 -Distro podman-machine-default && `
+./skills/dev-vm-cleaner/scripts/cleanup-distro.ps1 -Distro docker-desktop
 ```
